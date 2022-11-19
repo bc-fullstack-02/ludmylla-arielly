@@ -20,14 +20,11 @@ const { Post, Comment, User } = require('./api/routes')
 // instancia express
 const app = express()
 
+app.use(express.json())
 app.use(cors())
 app.use(helmet())
 
-app.use(
-  express.urlencoded({
-    extended: true
-  })
-)
+app.use(express.urlencoded({ extended: true }))
 
 app.use(bodyParser.json())
 
