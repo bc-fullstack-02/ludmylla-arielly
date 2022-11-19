@@ -4,6 +4,9 @@ const logger = require('morgan')
 const createError = require('http-errors')
 const helmet = require('helmet')
 const cors = require('cors')
+const swaggerUi = require('swagger-ui-express')
+
+const swagerDoc = require('./api/swaggerDoc/swagger')
 
 // add swagger doc
 
@@ -15,14 +18,15 @@ const cors = require('cors')
 const { Post, Comment, User } = require('./api/routes')
 // const { User: UserModel } = require('./api/models')
 
-// const options = Object.assign(defaultOptions, {basedir: __dirname})
-
 // instancia express
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 app.use(helmet())
+
+app.use('/api-docs', swaggerUi.serve)
+app.use('/api-docs', swaggerUi.setup(swagerDoc))
 
 app.use(express.urlencoded({ extended: true }))
 
