@@ -14,6 +14,16 @@ router
     .catch(err => next(err))
   )
 
+  /**
+   * @swagger
+   * /:
+   * get:
+   *    summary: This method list all posts
+   *    description: This method list all posts
+   *    responses:
+   *        200:
+   *          description: Test get method
+  */
   .get((req, res, next) => Promise.resolve()
     .then(() => Post.find({ user: req.user_id }).populate('comments'))
     .then((data) => res.status(200).json(data))
