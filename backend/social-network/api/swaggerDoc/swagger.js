@@ -16,6 +16,19 @@ const swaggerDoc = {
       description: 'Local'
     }
   ],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer'
+      }
+    }
+  },
+  security: [
+    {
+      bearerAuth: []
+    }
+  ],
   tags: [
     {
       name: 'posts',
