@@ -53,7 +53,8 @@ router
     .catch(err => next(err)))
 
   .put((req, res, next) => Promise.resolve()
-    .then(() => User.findByIdAndUpdate(req.params.id, req.body, { runValidators: true }))
+    .then(() => bcrypt.hash(req.body.password, 10))
+    .then((passwordHashed) => User.findByIdAndUpdate(req.params.id, req.body, { password: passwordHashed, runValidators: true }))
     .then((data) => res.status(200).json(data))
     .catch(err => next(err)))
 
