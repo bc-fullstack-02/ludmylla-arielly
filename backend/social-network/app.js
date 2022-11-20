@@ -11,7 +11,7 @@ const swagerDoc = require('./api/swaggerDoc/swagger')
 
 // jwt
 const jwt = require('jsonwebtoken')
-const TOKEN_SECRET = 'mycode455722'
+const TOKEN_SECRET = '2634d3209b728707236765918773edda'
 
 const { Post, Comment, User } = require('./api/routes')
 const { User: UserModel } = require('./api/models')
@@ -35,7 +35,7 @@ app.use(logger(process.env.NODE_ENV || 'dev'))
 
 function authenticateToken (req, res, next) {
   const authHeader = req.headers.authorization
-  const token = authHeader && authHeader.split('')[1]
+  const token = authHeader && authHeader.split(' ')[1]
 
   if (token == null) return next(createError(401))
 
