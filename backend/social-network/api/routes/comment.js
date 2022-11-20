@@ -28,7 +28,7 @@ router
 
   // comenta na postagem
   .post((req, res, next) => Promise.resolve()
-    .then(() => new Comment(Object.assign(req.body, { post: res.locals.post.id })).save())
+    .then(() => new Comment(Object.assign(req.body, { post: res.locals.post.id, user: req.user._id })).save())
     .then((comment) => Post.findById(comment.post)
       .then(post => Object.assign(post, { comment: [...post.comments, comment._id] }))
       .then(post => Post.findByIdAndUpdate(comment.post, post))
@@ -49,7 +49,7 @@ router
 
   // busca comentario por id
   .get((req, res, next) => Promise.resolve()
-    .then(() => Comment.find({ post: res.locals.post.id }).populate('post'))
+    .then(() => Comment.findOne({ post: res.locals.post.id }).populate('post'))
     .then((data) => res.status(200).json(data))
     .catch(err => next(err)))
 
