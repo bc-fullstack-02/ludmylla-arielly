@@ -6,17 +6,15 @@ const helmet = require('helmet')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 
+// swagger
 const swagerDoc = require('./api/swaggerDoc/swagger')
 
-// add swagger doc
-
-// const jwt = require('jsonwebtoken')
-// const TOKEN_SECRET = 'mycode455722'
-
-// swagger
+// jwt
+const jwt = require('jsonwebtoken')
+const TOKEN_SECRET = 'mycode455722'
 
 const { Post, Comment, User } = require('./api/routes')
-// const { User: UserModel } = require('./api/models')
+const { User: UserModel } = require('./api/models')
 
 // instancia express
 const app = express()
@@ -25,6 +23,7 @@ app.use(express.json())
 app.use(cors())
 app.use(helmet())
 
+// swagger
 app.use('/api-docs', swaggerUi.serve)
 app.use('/api-docs', swaggerUi.setup(swagerDoc))
 
@@ -34,7 +33,6 @@ app.use(bodyParser.json())
 
 app.use(logger(process.env.NODE_ENV || 'dev'))
 
-/*
 function authenticateToken (req, res, next) {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split('')[1]
@@ -51,11 +49,11 @@ function authenticateToken (req, res, next) {
       })
       .catch(error => next(error))
   })
-} */
+}
 
 // add all routes on a prefix version
-Post.use('/', Comment)
-app.use('/v1/posts', Post)
+Post.use('/', authenticateToken, Comment)
+app.use('/v1/posts', authenticateToken, Post)
 app.use('/v1/users', User)
 
 // pega todos 404 se nenhum middlawre respondeu
