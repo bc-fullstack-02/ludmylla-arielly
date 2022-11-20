@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
 const { User, Connection } = require('../models')
-const TOKEN_SECRET = 'mycode455722'
+const TOKEN_SECRET = '2634d3209b728707236765918773edda'
 
 router
   .route('/')
@@ -54,7 +54,7 @@ router
 
   .put((req, res, next) => Promise.resolve()
     .then(() => bcrypt.hash(req.body.password, 10))
-    .then((passwordHashed) => User.findByIdAndUpdate(req.params.id, req.body, { password: passwordHashed, runValidators: true }))
+    .then((passwordHashed) => User.findByIdAndUpdate(req.params.id, { ...req.body, password: passwordHashed, runValidators: true }))
     .then((data) => res.status(200).json(data))
     .catch(err => next(err)))
 
