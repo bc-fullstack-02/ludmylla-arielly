@@ -1,7 +1,7 @@
 const comments = [{
   _id: '6379169a781ac388d8eb79db',
   description: 'comment5',
-  user: '6378f2013d8439ff62605e3b',
+  user: '681546shu8585aw6788984f86',
   post: {
     _id: '63793a3873d0b8e3a8015da8',
     title: 'Olá',
@@ -114,11 +114,6 @@ const createComment = {
               type: 'string',
               description: 'Description of the comment',
               example: 'The standard chunk of Lorem Ipsum used'
-            },
-            user: {
-              type: 'string',
-              description: 'User of the comment',
-              example: '6378f2013d8439ff62605e3b'
             }
           }
         }
@@ -173,11 +168,6 @@ const updateComment = {
               type: 'string',
               description: 'Description of the comment',
               example: 'The standard chunk of Lorem Ipsum used'
-            },
-            user: {
-              type: 'string',
-              description: 'User of the comment',
-              example: '6378f2013d8439ff62605e3b'
             }
           }
         }
