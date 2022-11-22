@@ -1,11 +1,6 @@
 const { Schema, model } = require('mongoose')
 
 const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    minLength: 2
-  },
   user: {
     type: String,
     unique: true,
@@ -17,9 +12,9 @@ const userSchema = new Schema({
     required: true,
     minLength: 2
   },
-  following: [{
+  profile: [{
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'Profile'
   }]
 })
 

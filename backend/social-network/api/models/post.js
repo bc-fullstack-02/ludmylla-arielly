@@ -12,16 +12,18 @@ const postSchema = new Schema(
       required: true,
       minLength: 2
     },
-    user: {
+    profile: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'Profile'
     },
-    comments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-      }
-    ]
+    comments: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Comment'
+    }],
+    likes: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Profile'
+    }]
   },
   { timestamps: true }
 )
