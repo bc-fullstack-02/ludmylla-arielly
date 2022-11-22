@@ -1,6 +1,9 @@
-const postRouteDoc = require('../routes/posts.doc')
-const userRouteDoc = require('../routes/users.doc')
-const commentRouteDoc = require('../routes/comment.doc')
+const postRouteDoc = require('../swagger-routes/posts.doc')
+const userRouteDoc = require('../swagger-routes/users.doc')
+const commentRouteDoc = require('../swagger-routes/comment.doc')
+const securityRouteDoc = require('../swagger-routes/security.doc')
+const feedRouteDoc = require('../swagger-routes/feed.doc')
+const profileRouteDoc = require('../swagger-routes/profile.doc')
 
 const swaggerDoc = {
   openapi: '3.0.0',
@@ -41,13 +44,28 @@ const swaggerDoc = {
     {
       name: 'comments',
       description: 'Comment routes'
+    },
+    {
+      name: 'security',
+      description: 'Security routes'
+    },
+    {
+      name: 'feed',
+      description: 'Feed routes'
+    },
+    {
+      name: 'profile',
+      description: 'Profile routes'
     }
   ],
 
   paths: {
     ...postRouteDoc,
     ...userRouteDoc,
-    ...commentRouteDoc
+    ...commentRouteDoc,
+    ...securityRouteDoc,
+    ...feedRouteDoc,
+    ...profileRouteDoc
   }
 }
 
