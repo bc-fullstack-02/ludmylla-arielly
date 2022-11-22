@@ -7,13 +7,13 @@ const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 
 // swagger
-const swagerDoc = require('./api/swaggerDoc/swagger')
+const swagerDoc = require('./api/swagger/swagger')
 
 // jwt
 const jwt = require('jsonwebtoken')
 const TOKEN_SECRET = '2634d3209b728707236765918773edda'
 
-const { Post, Comment, User } = require('./api/routes')
+const { Post, Comment, User, Security, Profile, Feed } = require('./api/routes')
 const { User: UserModel } = require('./api/models')
 
 // instancia express
@@ -54,7 +54,10 @@ function authenticateToken (req, res, next) {
 // add all routes on a prefix version
 Post.use('/', authenticateToken, Comment)
 app.use('/v1/posts', authenticateToken, Post)
-app.use('/v1/users', User)
+app.use('/v1/users', authenticateToken, User)
+app.use('/v1/profiles', authenticateToken, Profile)
+app.use('/v1/feed', authenticateToken, Feed)
+app.use('/v1/security', Security)
 
 // pega todos 404 se nenhum middlawre respondeu
 app.use(function (req, res, next) {
