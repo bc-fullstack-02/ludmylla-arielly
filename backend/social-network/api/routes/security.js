@@ -4,16 +4,10 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
 
-const { User, Profile, Connection } = require('../models')
+const { User, Profile } = require('../models')
 const TOKEN_SECRET = '2634d3209b728707236765918773edda'
 
 router
-  .all((req, res, next) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => next())
-    .catch(err => next(err))
-  )
-
   .route('/login')
 
   // login user
@@ -26,10 +20,6 @@ router
 
 router
   .route('/register')
-  .all((req, res, next) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => next())
-    .catch(err => next(err)))
 
   // cria usuario
   .post((req, res, next) => Promise.resolve()
