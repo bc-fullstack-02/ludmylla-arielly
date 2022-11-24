@@ -237,6 +237,48 @@ const deleteComment = {
   }
 }
 
+const likeComments = {
+  tags: ['comments'],
+  description: 'Like comments',
+  summary: 'like comments',
+  parameters: [
+    {
+      name: 'id',
+      in: 'path',
+      description: 'id of the post',
+      type: 'string',
+      example: '63793a3873d0b8e3a8015da8'
+    },
+    {
+      name: 'commentId',
+      in: 'path',
+      description: 'id of the comment',
+      type: 'string',
+      example: '63793a3873d0b8e3a8015da8'
+    }
+  ],
+  responses: {
+    200: {
+      description: 'OK',
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            example: comments[1]
+          }
+        }
+      }
+    },
+    404: {
+      description: 'NOT FOUND'
+    },
+
+    400: {
+      description: 'BAD REQUEST'
+    }
+  }
+}
+
 const commentRouteDoc = {
   '/posts/{id}/comments': {
     get: listComments,
@@ -246,6 +288,9 @@ const commentRouteDoc = {
     get: getCommentById,
     put: updateComment,
     delete: deleteComment
+  },
+  '/posts/{id}/comments/{commentId}/like': {
+    post: likeComments
   }
 }
 
