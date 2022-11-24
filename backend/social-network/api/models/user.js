@@ -12,10 +12,10 @@ const userSchema = new Schema({
     required: true,
     minLength: 2
   },
-  profile: [{
+  profile: {
     type: Schema.Types.ObjectId,
     ref: 'Profile'
-  }]
+  }
 })
 
 module.exports = model('User', userSchema)
