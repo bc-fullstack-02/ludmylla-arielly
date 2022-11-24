@@ -9,6 +9,18 @@ services:
     networks:
       - mynet
 
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - -/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/  
+      - -/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - mynet
+
   backend:    
     restart: always
     build:
@@ -16,9 +28,11 @@ services:
     volumes:
       - .:/src
     depends_on:
+      - 'rabbitmq'
       - mongodb
     environment:
       PORT: 4000
+      AMQP_URL: amqp://quest:quest@rabbitmq:5672
       MONGODB: mongodb://mongodb:27017/mydb
       ACCESS_TOKEN_SECRET: tokenjwtlalalal
     ports:
