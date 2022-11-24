@@ -34,7 +34,7 @@ services:
       PORT: 4000
       AMQP_URL: amqp://quest:quest@rabbitmq:5672
       MONGODB: mongodb://mongodb:27017/mydb
-      ACCESS_TOKEN_SECRET: tokenjwtlalalal
+      ACCESS_TOKEN_SECRET: 2634d3209b728707236765918773edda
     ports:
         - 4000:4000
     networks:
