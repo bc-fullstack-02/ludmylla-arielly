@@ -5,11 +5,6 @@ const { Profile, Connection } = require('../models')
 
 router
   .route('/')
-  .all((req, res, next) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => next())
-    .catch(err => next(err))
-  )
 
   .get((req, res, next) => Promise.resolve()
     .then(() => Profile.find({}))
@@ -18,12 +13,6 @@ router
   )
 
 router
-  .param('id', (req, res, next, id) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => next())
-    .catch(err => next(err))
-  )
-
   .route('/search')
 
   .get((req, res, next) => Promise.resolve()
@@ -32,11 +21,6 @@ router
     .catch((err) => next(err)))
 
 router
-  .param('id', (req, res, next, id) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => next())
-    .catch((err) => next(err)))
-
   .route('/:id')
 
   .get((req, res, next) => Promise.resolve()
