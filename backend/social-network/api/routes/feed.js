@@ -1,13 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { Post, Profile, Connection } = require('../models')
+const { Post, Profile } = require('../models')
 
 router
   .route('/')
-  .all((req, res, next) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => next())
-    .catch(err => next(err)))
 
   .get((req, res, next) => Promise.resolve()
     .then(() => Profile.findById(req.user.profile.id))
