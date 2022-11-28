@@ -198,6 +198,76 @@ const deletePost = {
   }
 }
 
+const likePost = {
+  tags: ['posts'],
+  description: 'Like a the post',
+  summary: 'like a the post',
+  parameters: [
+    {
+      name: 'id',
+      in: 'path',
+      description: 'id of the post',
+      type: 'string',
+      example: '6378f0354f228b0c463dfc8c'
+    }
+  ],
+  responses: {
+    200: {
+      description: 'OK',
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            example: posts[0]
+          }
+        }
+      }
+    },
+    404: {
+      description: 'NOT FOUND'
+    },
+
+    400: {
+      description: 'BAD REQUEST'
+    }
+  }
+}
+
+const unlike = {
+  tags: ['posts'],
+  description: 'Unlike a the post',
+  summary: 'unlike a the post',
+  parameters: [
+    {
+      name: 'id',
+      in: 'path',
+      description: 'id of the post',
+      type: 'string',
+      example: '6378f0354f228b0c463dfc8c'
+    }
+  ],
+  responses: {
+    200: {
+      description: 'OK',
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            example: posts[0]
+          }
+        }
+      }
+    },
+    404: {
+      description: 'NOT FOUND'
+    },
+
+    400: {
+      description: 'BAD REQUEST'
+    }
+  }
+}
+
 const postRouteDoc = {
   '/posts': {
     get: listPosts,
@@ -207,6 +277,12 @@ const postRouteDoc = {
     get: getPostById,
     put: updatePost,
     delete: deletePost
+  },
+  '/posts/{id}/like': {
+    post: likePost
+  },
+  '/posts/{id}/unlike': {
+    post: unlike
   }
 
 }
