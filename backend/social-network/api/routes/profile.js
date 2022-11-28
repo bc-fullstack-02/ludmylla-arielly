@@ -37,8 +37,8 @@ router
   .route('/:id/follow')
 
   .post((req, res, next) => Promise.resolve()
-    .then(() => Profile.findOneAndUpdate({ id: req.params.id }, { $push: { followers: req.user.profile.id } }))
-    .then(() => Profile.findOneAndUpdate({ id: req.user.profile.id }, { $push: { following: req.params.id } }, { new: true }))
+    .then(() => Profile.findOneAndUpdate({ _id: req.params.id }, { $push: { followers: req.user.profile._id } }))
+    .then(() => Profile.findOneAndUpdate({ _id: req.user.profile._id }, { $push: { following: req.params.id } }, { new: true }))
     .then((data) => data ? res.status(200).json(data) : next(createError(404)))
     .catch(err => next(err)))
 
@@ -51,8 +51,8 @@ router
   .route('/:id/unfollow')
 
   .post((req, res, next) => Promise.resolve()
-    .then(() => Profile.findOneAndUpdate({ id: req.params.id }, { $pull: { followers: req.user.profile.id } }))
-    .then(() => Profile.findOneAndUpdate({ id: req.user.profile.id }, { $pull: { following: req.params.id } }, { new: true }))
+    .then(() => Profile.findOneAndUpdate({ _id: req.params.id }, { $pull: { followers: req.user.profile._id } }))
+    .then(() => Profile.findOneAndUpdate({ _id: req.user.profile._id }, { $pull: { following: req.params.id } }, { new: true }))
     .then((data) => data ? res.status(200).json(data) : next(createError(404)))
     .catch(err => next(err)))
 
