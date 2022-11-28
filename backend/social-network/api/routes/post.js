@@ -15,12 +15,13 @@ router
   )
 
   .get((req, res, next) => Promise.resolve()
-    .then(() => Post.find({ user: req.user_id }).populate('comments'))
+    .then(() => Post.find({ user: req.user_id }).populate('comments').populate('profile'))
     .then((data) => res.status(200).json(data))
     .catch(err => next(err)))
 
   .post((req, res, next) => Promise.resolve()
-    .then(() => new Post({ ...req.body, user: req.user_id }).save())
+    .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save())
+    .then(args => req.publish('post', req.user.profile.followers, args))
     .then((data) => res.status(201).json(data))
     .catch(err => next(err)))
 
@@ -48,6 +49,37 @@ router
   .delete((req, res, next) => Promise.resolve()
     .then(() => Post.deleteOne({ _id: req.params.id }))
     .then((data) => res.status(203).json(data))
+    .catch(err => next(err)))
+
+router
+  .param('id', (req, res, next, id) => Promise.resolve()
+    .then(() => Connection.then())
+    .then(() => {
+      next()
+    })
+    .catch(err => next(err)))
+
+  .route('/:id/like')
+
+  .post((req, res, next) => Promise.resolve()
+    .then(() => Post.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.user.profile._id } }, { new: true }))
+    .then(args => req.publish('post-like', [args.profile], args))
+    .then((data) => res.status(200).json(data))
+    .catch(err => next(err)))
+
+router
+  .param('id', (req, res, next, id) => Promise.resolve()
+    .then(() => Connection.then())
+    .then(() => {
+      next()
+    })
+    .catch(err => next(err)))
+
+  .route('/:id/unlike')
+
+  .post((req, res, next) => Promise.resolve()
+    .then(() => Post.findOneAndUpdate({ _id: req.params.id }, { $pull: { likes: req.user.profile._id } }, { new: true }))
+    .then((data) => res.status(200).json(data))
     .catch(err => next(err)))
 
 module.exports = router
