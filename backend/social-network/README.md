@@ -15,9 +15,9 @@ O desafio é criar uma rede social com a runtime NodeJs no backend e ReactJS no 
 - morgan
 - swagger-ui
 
-### Execute a aplicação
+## Execute a aplicação
 
-## Clone o repositório
+### Clone o repositório
 ```
 git clone https://github.com/bc-fullstack-02/ludmylla-arielly.git
 cd backend
@@ -30,7 +30,7 @@ cd social-network
     npm install
     ```
 
-## Execute a aplicação
+### Execute a aplicação
   ```
   npm start
   ```
