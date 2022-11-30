@@ -1,8 +1,9 @@
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
 const createError = require('http-errors')
-const helmet = require('helmet')
+// const helmet = require('helmet')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 
@@ -11,23 +12,25 @@ const swagerDoc = require('./api/swagger/swagger')
 
 // jwt
 const jwt = require('jsonwebtoken')
-const TOKEN_SECRET = '2634d3209b728707236765918773edda'
+const TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || '2634d3209b728707236765918773edda'
 
 const { Post, Comment, User, Security, Profile, Feed } = require('./api/routes')
-const { User: UserModel } = require('./api/models')
+const { User: UserModel, Connection } = require('./api/models')
+
+const pubsub = require('./api/lib/pubsub')
 
 // instancia express
 const app = express()
 
 app.use(express.json())
 app.use(cors())
-app.use(helmet())
+// app.use(helmet())
 
 // swagger
 app.use('/api-docs', swaggerUi.serve)
 app.use('/api-docs', swaggerUi.setup(swagerDoc))
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
@@ -42,7 +45,7 @@ function authenticateToken (req, res, next) {
   jwt.verify(token, TOKEN_SECRET, (err, user) => {
     if (err) return next(createError(403))
 
-    UserModel.findOne({ user })
+    UserModel.findOne({ user }).populate('profile')
       .then(u => {
         req.user = u
         next()
@@ -50,6 +53,14 @@ function authenticateToken (req, res, next) {
       .catch(error => next(error))
   })
 }
+
+app.use((req, res, next) => Promise.resolve()
+  .then(() => Connection.then())
+  .then(() => next())
+  .catch(error => next(error)))
+
+app.use(express.static(path.join(__dirname, 'api/public')))
+app.use(pubsub.pub)
 
 // add all routes on a prefix version
 Post.use('/', authenticateToken, Comment)
@@ -64,6 +75,7 @@ app.use(function (req, res, next) {
   const err = createError(404)
   next(err)
 })
+
 /*
 app.use(function (error, req, res, next) {
   if (error.name && error.name === 'ValidationError') {
