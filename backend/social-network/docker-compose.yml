@@ -1,6 +1,38 @@
 version: "3.2"
 services:
 
+  minio:
+    image: bitnami/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+
+    environment:
+      MINIO_ROOT_USER: 7a2bb14b73e07fc730e4f2f7b34f9b88d737027b
+      MINIO_ROOT_PASSWORD: 01a297faceeea5e5ea38e7c4bbab4a3cd38cfe19
+      MINIO_SERVER_HOST: localhost
+      MINIO_SCHEME: http
+      MINIO_API_CORS_ALLOW_ORIGIN: '*'
+    networks:
+    - mynet  
+
+  mc:
+    image: minio/mc
+    container_name: mc
+    network_mode: host
+    depends_on: 
+      - minio
+    entrypoint: >
+      /bin/sh -c '
+      /usr/bin/mc config host add --api s3v4 minio http://minio:9000/ minioUser minioPassword;
+      /usr/bin/mc rm -r --force minio/first-bucket;
+      /usr/bin/mc mb -p minio/first-bucket;
+      /usr/bin/mc admin policy set public minio/first-bucket;
+      /usr/bin/mc admin trace minio -a --debug;
+      '
+    networks:
+      - mynet 
+
   mongodb:
     image: mongo:latest
     container_name: 'mongodb'
@@ -10,7 +42,7 @@ services:
       - mynet
 
   rabbitmq:
-    image: rabbitmq:3.11-management-alpine
+    image: rabbitmq:3.8-management-alpine
     container_name: 'rabbitmq'
     ports:
       - 5672:5672
@@ -28,13 +60,18 @@ services:
     volumes:
       - .:/src
     depends_on:
-      - 'rabbitmq'
+      - rabbitmq
       - mongodb
+      - minio
     environment:
       PORT: 4000
       AMQP_URL: amqp://quest:quest@rabbitmq:5672
       MONGODB: mongodb://mongodb:27017/mydb
       ACCESS_TOKEN_SECRET: 2634d3209b728707236765918773edda
+      BUCKET_HOST: http://localhost:9000/
+      BUCKET_ENDPOINT: http://minio:9000/
+      BUCKET_ACCESS_KEY: minioUser
+      BUCKET_SECRET_KEY: minioPassword
     ports:
         - 4000:4000
     networks:
