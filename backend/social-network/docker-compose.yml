@@ -69,8 +69,8 @@ services:
       ACCESS_TOKEN_SECRET: 2634d3209b728707236765918773edda
       BUCKET_HOST: http://localhost:9000/
       BUCKET_ENDPOINT: http://minio:9000/
-      BUCKET_ACCESS_KEY: minioUser
-      BUCKET_SECRET_KEY: minioPassword
+      BUCKET_ACCESS_KEY: myminiouser
+      BUCKET_SECRET_KEY: myminiopassword
     ports:
         - 4000:4000
     networks:
