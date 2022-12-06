@@ -64,8 +64,8 @@ services:
       - minio
     environment:
       PORT: 4000
-      AMQP_URL: amqp://quest:quest@rabbitmq:5672
       MONGODB: mongodb://mongodb:27017/mydb
+      AMQP_URL: amqp://quest:quest@rabbitmq:5672
       ACCESS_TOKEN_SECRET: 2634d3209b728707236765918773edda
       BUCKET_HOST: http://localhost:9000/
       BUCKET_ENDPOINT: http://minio:9000/
