@@ -6,7 +6,8 @@ function SignUp() {
         <AuthForm 
             formTitle="Faça o cadastro e comece a usar!" 
             submitFormButtonText="Cadastrar" 
-            linkDescription="Já possui conta? Entre agora!" />
+            linkDescription="Já possui conta? Entre agora!" 
+            routeName="/" />
     )
 }
 export default SignUp;
