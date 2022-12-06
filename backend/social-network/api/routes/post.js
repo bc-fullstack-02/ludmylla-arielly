@@ -1,6 +1,7 @@
 const createError = require('http-errors')
 const express = require('express')
 const router = express.Router()
+const upload = require('../lib/upload')
 const { Post, Connection } = require('../models')
 
 router
@@ -10,29 +11,28 @@ router
     .then(() => {
       next()
     })
-
-    .catch(err => next(err))
-  )
+    .catch(err => next(err)))
 
   .get((req, res, next) => Promise.resolve()
-    .then(() => Post.find({ user: req.user_id }).populate('comments').populate('profile'))
+    .then(() => console.log(req.user))
+    .then(() => Post.find({ }).populate('comments').populate('profile'))
     .then((data) => res.status(200).json(data))
     .catch(err => next(err)))
-
+/*
   .post((req, res, next) => Promise.resolve()
-    .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save())
+    .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save()
+      .then((post) => post.populate('profile')))
     .then(args => req.publish('post', req.user.profile.followers, args))
     .then((data) => res.status(201).json(data))
-    .catch(err => next(err)))
+    .catch(err => next(err))) */
+
+  .post(upload.concat([(req, res, next) => Promise.resolve()
+    .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save())
+    .then(args => req.publish('post', req.user.profile.followers, args))
+    .then((data) => data ? res.status(201).json(data) : next(createError(400)))
+    .catch(err => next(err))]))
 
 router
-  .param('id', (req, res, next, id) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => {
-      next()
-    })
-    .catch(err => next(err)))
-
   .route('/:id')
 
   // busca postagem por id
@@ -52,13 +52,6 @@ router
     .catch(err => next(err)))
 
 router
-  .param('id', (req, res, next, id) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => {
-      next()
-    })
-    .catch(err => next(err)))
-
   .route('/:id/like')
 
   .post((req, res, next) => Promise.resolve()
@@ -68,13 +61,6 @@ router
     .catch(err => next(err)))
 
 router
-  .param('id', (req, res, next, id) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => {
-      next()
-    })
-    .catch(err => next(err)))
-
   .route('/:id/unlike')
 
   .post((req, res, next) => Promise.resolve()
