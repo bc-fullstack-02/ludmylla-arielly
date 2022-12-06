@@ -1,23 +1,26 @@
+import { Link } from 'react-router-dom'
+import { User, Lock } from "phosphor-react"
+
 import Heading from "../../components/Heading";
 import Text from "../../components/Text";
 import { TextInput } from "../../components/TextInput";
 import Button from "../../components/Button";
 
-import { User, Lock } from "phosphor-react"
-
 import logo from '../../assets/logo.svg'
+import '../AuthForm/index.css'
 
 interface AuthFormProps {
     formTitle: string;
     submitFormButtonText: string;
     linkDescription: string;
+    routeName:  string;
 }
 
-function AuthForm({ formTitle, submitFormButtonText, linkDescription }: AuthFormProps) {
+function AuthForm({ formTitle, submitFormButtonText, linkDescription, routeName }: AuthFormProps) {
     return (
         <div className="text-cyan-50 flex flex-col items-center mt-16">
            <header className="flex flex-col items-center">
-                <img src={logo} alt="Logo" />
+                <img className='mb-6' src={logo} alt="Logo" />
                 <Heading size='lg' className="mt-2">Sysmap Penguin</Heading>
                 <Text className="mt-1 opacity-50">{formTitle}</Text>
            </header>
@@ -49,7 +52,11 @@ function AuthForm({ formTitle, submitFormButtonText, linkDescription }: AuthForm
            
  
             <footer className="flex flex-col items-center gap-4 mt-8">
-                <Text asChild size="sm"><a href="#" className="text-gray-400 underline hover:text-gray-200">{linkDescription}</a></Text>
+                <Text asChild size="sm">
+                    <Link to={routeName}
+                        className="text-gray-400 underline hover:text-gray-200">{linkDescription}
+                     </Link>   
+                </Text>
             </footer>
         </div>
     )

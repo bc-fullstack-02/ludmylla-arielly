@@ -1,0 +1,15 @@
+img {
+  display: grid;
+  place-items: center;
+  animation: is-boucing 1s cubic-bezier(0.68, -0.6, 0.32, 1.6) alternate infinite;
+}
+
+svg {
+    width: 200px;
+  }
+  
+  @keyframes is-boucing {
+    to {
+      transform: translateY(10px);
+    }
+  }
