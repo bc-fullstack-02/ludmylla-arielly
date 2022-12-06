@@ -15,6 +15,14 @@ const userSchema = new Schema({
   profile: {
     type: Schema.Types.ObjectId,
     ref: 'Profile'
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updateAt: {
+    type: Date,
+    default: Date.now
   }
 })
 
