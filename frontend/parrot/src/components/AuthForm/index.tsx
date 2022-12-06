@@ -1,3 +1,4 @@
+import { FormEvent } from 'react';
 import { Link } from 'react-router-dom'
 import { User, Lock } from "phosphor-react"
 
@@ -9,14 +10,25 @@ import Button from "../../components/Button";
 import logo from '../../assets/logo.svg'
 import '../AuthForm/index.css'
 
+
 interface AuthFormProps {
     formTitle: string;
     submitFormButtonText: string;
+    submitFormButtonAction: (user: string, password: string) => void;
     linkDescription: string;
     routeName:  string;
 }
 
-function AuthForm({ formTitle, submitFormButtonText, linkDescription, routeName }: AuthFormProps) {
+function AuthForm({ formTitle, submitFormButtonText, submitFormButtonAction, linkDescription, routeName }: AuthFormProps) {
+    
+    function handleSubmit(event: FormEvent) {
+        event.preventDefault();
+        const form = event.target as HTMLFormElement;
+        submitFormButtonAction(
+            form.elements.user.value, 
+            form.elements.password.value)
+    }
+
     return (
         <div className="text-cyan-50 flex flex-col items-center mt-16">
            <header className="flex flex-col items-center">
@@ -25,7 +37,7 @@ function AuthForm({ formTitle, submitFormButtonText, linkDescription, routeName 
                 <Text className="mt-1 opacity-50">{formTitle}</Text>
            </header>
 
-           <form className="flex flex-col gap-4 items-stretch w-full max-w-sm mt-10">
+           <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-4 items-stretch w-full max-w-sm mt-10">
                 <label htmlFor="user" className="flex flex-col gap-2">
                   
                     <Text>Login</Text>
@@ -38,13 +50,13 @@ function AuthForm({ formTitle, submitFormButtonText, linkDescription, routeName 
 
                 </label>
 
-                <label htmlFor="user" className="flex flex-col gap-2">
+                <label htmlFor="password" className="flex flex-col gap-2">
                     <Text>Senha</Text>
                     <TextInput.Root>
                         <TextInput.Icon>
                             <Lock />
                         </TextInput.Icon>
-                        <TextInput.Input id="user" type="password"  placeholder="*******" />
+                        <TextInput.Input id="password" type="password"  placeholder="*******" />
                     </TextInput.Root>
                 </label>
                 <Button type="submit" className="flex flex-col gap-2 py-3 px-4 h-10 bg-cyan-500 rounded font-semibold text-black text-sm w-full transition-colors hover:bg-cyan-300 focus:ring-2 ring-white">{submitFormButtonText}</Button>
