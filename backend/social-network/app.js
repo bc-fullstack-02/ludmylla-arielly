@@ -1,14 +1,18 @@
-const path = require('path')
 const express = require('express')
+const app = express()
+const path = require('path')
+// const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
 const createError = require('http-errors')
-// const helmet = require('helmet')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
+const pubsub = require('./api/lib/pubsub')
 
 // swagger
 const swagerDoc = require('./api/swagger/swagger')
+app.use('/api-docs', swaggerUi.serve)
+app.use('/api-docs', swaggerUi.setup(swagerDoc))
 
 // jwt
 const jwt = require('jsonwebtoken')
@@ -17,24 +21,26 @@ const TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || '2634d3209b7287072367659
 const { Post, Comment, User, Security, Profile, Feed } = require('./api/routes')
 const { User: UserModel, Connection } = require('./api/models')
 
-const pubsub = require('./api/lib/pubsub')
-
-// instancia express
-const app = express()
-
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
 app.use(cors())
 // app.use(helmet())
 
-// swagger
-app.use('/api-docs', swaggerUi.serve)
-app.use('/api-docs', swaggerUi.setup(swagerDoc))
+app.use(express.static(path.join(__dirname, 'api/public')))
+app.use(pubsub.pub)
 
-app.use(express.urlencoded({ extended: false }))
+/* const urlencodedMiddleware = bodyParser.urlencoded({
+  extended: true
+}) */
 
-app.use(bodyParser.json())
+// app.use((req, res, next) => (/^multipart\//i.test(req.get('Content-Type'))) ? next() : urlencodedMiddleware(req, res, next))
 
-app.use(logger(process.env.NODE_ENV || 'dev'))
+app.use(bodyParser.json({
+  defer: true
+}))
+
+app.use(logger('tiny'))
 
 function authenticateToken (req, res, next) {
   const authHeader = req.headers.authorization
@@ -54,13 +60,11 @@ function authenticateToken (req, res, next) {
   })
 }
 
+// Connection
 app.use((req, res, next) => Promise.resolve()
   .then(() => Connection.then())
   .then(() => next())
   .catch(error => next(error)))
-
-app.use(express.static(path.join(__dirname, 'api/public')))
-app.use(pubsub.pub)
 
 // add all routes on a prefix version
 Post.use('/', authenticateToken, Comment)
@@ -70,7 +74,7 @@ app.use('/v1/profiles', authenticateToken, Profile)
 app.use('/v1/feed', authenticateToken, Feed)
 app.use('/v1/security', Security)
 
-// pega todos 404 se nenhum middlawre respondeu
+// catch all 404 if no middlawre responded
 app.use(function (req, res, next) {
   const err = createError(404)
   next(err)
