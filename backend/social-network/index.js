@@ -1,10 +1,10 @@
+const app = require('./app')
 const http = require('http')
 const socketio = require('socket.io')
 const jwt = require('jsonwebtoken')
 const { User: UserModel } = require('./api/models')
 
 const pubsub = require('./api/lib/pubsub')
-const app = require('./app')
 
 const TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || '2634d3209b728707236765918773edda'
 
