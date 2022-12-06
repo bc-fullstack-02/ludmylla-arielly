@@ -43,8 +43,8 @@ function Login() {
            </form>
            
  
-            <footer>
-                <h1 className='text-white'>Footer</h1>
+            <footer className="flex flex-col items-center gap-4 mt-8">
+                <Text asChild size="sm"><a href="#" className="text-gray-400 underline hover:text-gray-200">Não possui conta? Crie uma agora!</a></Text>
             </footer>
         </div>
     )
