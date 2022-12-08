@@ -1,15 +1,36 @@
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import AuthForm from "../../components/AuthForm";
 import api  from '../../services/api'
 
+interface UserToken {
+    profile: string;
+    user: string;
+}
+
 function Login() {
 
+    const navigate = useNavigate();
+
    async function handleLogin(user: string, password: string) {
-      const data = await api.post("/security/login", {
+    try {
+      const { data } = await api.post("/security/login", {
             user,
             password
         });
-        console.log(data)
+
+        const decodedToken = jwt_decode(data.acessToken) as UserToken;
+        
+        localStorage.setItem('profile', decodedToken.profile);
+        localStorage.setItem('user', decodedToken.user);
+        localStorage.setItem('acessToken', data.acessToken);
+
+        return navigate('/home');
+    }catch(err) {
+        console.log(err)
+        alert('erro')
     }
+}
 
     return (
         <AuthForm 
