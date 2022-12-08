@@ -32,7 +32,7 @@ function AuthForm({ formTitle, submitFormButtonText, submitFormButtonAction, lin
     return (
         <div className="text-cyan-50 flex flex-col items-center mt-16">
            <header className="flex flex-col items-center">
-                <img className='mb-6' src={logo} alt="Logo" />
+                <img className='logo mb-6' src={logo} alt="Logo" />
                 <Heading size='lg' className="mt-2">Sysmap Penguin</Heading>
                 <Text className="mt-1 opacity-50">{formTitle}</Text>
            </header>
@@ -59,7 +59,7 @@ function AuthForm({ formTitle, submitFormButtonText, submitFormButtonAction, lin
                         <TextInput.Input id="password" type="password"  placeholder="*******" />
                     </TextInput.Root>
                 </label>
-                <Button type="submit" className="flex flex-col gap-2 py-3 px-4 h-10 bg-cyan-500 rounded font-semibold text-black text-sm w-full transition-colors hover:bg-cyan-300 focus:ring-2 ring-white">{submitFormButtonText}</Button>
+                <Button type="submit" className="flex flex-col text-center items-center gap-2 py-3 px-4 h-10 bg-cyan-500 rounded font-semibold text-black text-sm w-full transition-colors hover:bg-cyan-300 focus:ring-2 ring-white">{submitFormButtonText}</Button>
            </form>
            
  
