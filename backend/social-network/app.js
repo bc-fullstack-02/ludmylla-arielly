@@ -30,11 +30,8 @@ app.use(cors())
 app.use(express.static(path.join(__dirname, 'api/public')))
 app.use(pubsub.pub)
 
-/* const urlencodedMiddleware = bodyParser.urlencoded({
-  extended: true
-}) */
-
-// app.use((req, res, next) => (/^multipart\//i.test(req.get('Content-Type'))) ? next() : urlencodedMiddleware(req, res, next))
+const urlencodedMiddleware = bodyParser.urlencoded({ extended: true })
+app.use((req, res, next) => (/^multipart\//i.test(req.get('Content-Type'))) ? next() : urlencodedMiddleware(req, res, next))
 
 app.use(bodyParser.json({
   defer: true
@@ -51,7 +48,7 @@ function authenticateToken (req, res, next) {
   jwt.verify(token, TOKEN_SECRET, (err, user) => {
     if (err) return next(createError(403))
 
-    UserModel.findOne({ user }).populate('profile')
+    UserModel.findOne(user).populate('profile')
       .then(u => {
         req.user = u
         next()
