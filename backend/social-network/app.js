@@ -8,18 +8,15 @@ const createError = require('http-errors')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 const pubsub = require('./api/lib/pubsub')
+const authenticateToken = require('./api/config/Authentication')
 
 // swagger
 const swagerDoc = require('./api/swagger/swagger')
 app.use('/api-docs', swaggerUi.serve)
 app.use('/api-docs', swaggerUi.setup(swagerDoc))
 
-// jwt
-const jwt = require('jsonwebtoken')
-const TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || '2634d3209b728707236765918773edda'
-
 const { Post, Comment, User, Security, Profile, Feed } = require('./api/routes')
-const { User: UserModel, Connection } = require('./api/models')
+const { Connection } = require('./api/models')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -38,24 +35,6 @@ app.use(bodyParser.json({
 }))
 
 app.use(logger('tiny'))
-
-function authenticateToken (req, res, next) {
-  const authHeader = req.headers.authorization
-  const token = authHeader && authHeader.split(' ')[1]
-
-  if (token == null) return next(createError(401))
-
-  jwt.verify(token, TOKEN_SECRET, (err, user) => {
-    if (err) return next(createError(403))
-
-    UserModel.findOne(user).populate('profile')
-      .then(u => {
-        req.user = u
-        next()
-      })
-      .catch(error => next(error))
-  })
-}
 
 // Connection
 app.use((req, res, next) => Promise.resolve()
