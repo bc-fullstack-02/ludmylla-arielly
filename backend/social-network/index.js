@@ -1,15 +1,13 @@
 const app = require('./app')
-const http = require('http')
 const socketio = require('socket.io')
 const jwt = require('jsonwebtoken')
 const { User: UserModel } = require('./api/models')
-
+const http = require('http').createServer(app)
 const pubsub = require('./api/lib/pubsub')
 
 const TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || '2634d3209b728707236765918773edda'
 
-const server = http.Server(app)
-const io = socketio(server, {
+const io = socketio(http, {
   cors: {
     origin: '*'
   }
@@ -21,7 +19,7 @@ liveData.use((socket, next) => {
   if (socket.handshake.auth && socket.handshake.auth.token) {
     jwt.verify(socket.handshake.auth.token, TOKEN_SECRET, function (err, user) {
       if (err) return next(new Error('Authentication error'))
-      UserModel.findOne({ user }).populate('profile')
+      UserModel.findOne(user).populate('profile')
         .then(u => {
           if (u) {
             socket.profile = u.profile
@@ -51,18 +49,22 @@ liveData.on('connection', function (socket) {
   socket.emit('connect_profile', socket.profile)
 })
 
-pubsub.sub().then((sub) => {
-  sub.on('message', function (message, content, ackOrNack) {
-    console.log(JSON.parse(message.content.toString()))
-    ackOrNack()
-    Object.entries(Object.fromEntries(liveData.sockets))
-      .filter(([, v]) => content.keys.includes(v.profile._id.toString()))
-      .map(([k, v]) => {
-        return v.emit(content.type, content.payload)
-      })
+pubsub
+  .sub()
+  .then((sub) => {
+    sub.on('message', (message, content, ackOrNack) => {
+      ackOrNack()
+      Object.entries(Object.fromEntries(liveData.sockets))
+        .filter(([, v]) =>
+          content.keys.includes(v.profile._id.toString())
+        )
+        .map(([k, v]) => {
+          return v.emit(content.type, content.payload)
+        })
+    })
   })
-}).catch(console.error)
+  .catch(console.error)
 
-app.listen(process.env.PORT || 3000, () => {
+http.listen(process.env.PORT || 3000, () => {
   console.log(`server listen on http://localhost:${process.env.PORT || 3000}`)
 })
