@@ -2,29 +2,16 @@ const createError = require('http-errors')
 const express = require('express')
 const router = express.Router()
 const upload = require('../lib/upload')
-const { Post, Connection } = require('../models')
+const { Post } = require('../models')
 
 router
   .route('/')
-  .all((req, res, next) => Promise.resolve()
-    .then(() => Connection.then())
-    .then(() => {
-      next()
-    })
-    .catch(err => next(err)))
 
   .get((req, res, next) => Promise.resolve()
     .then(() => console.log(req.user))
-    .then(() => Post.find({ }).populate('comments').populate('profile'))
+    .then(() => Post.find({ profile: req.user.profile._id }).populate('comments').populate('profile'))
     .then((data) => res.status(200).json(data))
     .catch(err => next(err)))
-/*
-  .post((req, res, next) => Promise.resolve()
-    .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save()
-      .then((post) => post.populate('profile')))
-    .then(args => req.publish('post', req.user.profile.followers, args))
-    .then((data) => res.status(201).json(data))
-    .catch(err => next(err))) */
 
   .post(upload.concat([(req, res, next) => Promise.resolve()
     .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save())
