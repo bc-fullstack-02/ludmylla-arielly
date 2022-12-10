@@ -1,6 +1,6 @@
 const createError = require('http-errors')
 const express = require('express')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
 
@@ -13,9 +13,9 @@ router
   // login user
   .post((req, res, next) => Promise.resolve()
     .then(() => User.findOne({ user: req.body.user }))
-    .then((user) => user ? bcrypt.compare(req.body.password, user.password) : next(createError(404)))
-    .then((passwordHashed) => passwordHashed ? jwt.sign(req.body.user, TOKEN_SECRET) : next(createError(401)))
-    .then((acessToken) => res.status(201).json({ acessToken }))
+    .then((user) => user ? { passwordHashed: bcrypt.compare(req.body.password, user.password), user } : next(createError(404)))
+    .then(({ user, passwordHashed }) => passwordHashed ? jwt.sign(JSON.stringify(user), TOKEN_SECRET) : next(createError(401)))
+    .then((accessToken) => accessToken ? res.status(201).json({ accessToken }) : next(createError))
     .catch(err => next(err)))
 
 router
