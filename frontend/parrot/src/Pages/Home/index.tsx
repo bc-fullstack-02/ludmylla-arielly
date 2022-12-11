@@ -5,6 +5,7 @@ import Menu from '../../components/Menu';
 import Text from '../../components/Text';
 import CreatePostButton from '../../components/CreatePostButton';
 import CreatePostDialog from '../../components/CreatePostDialog';
+import Feed from '../../components/Feed';
 
 import logo_menu from '../../assets/logo-menu.svg'
 
@@ -32,7 +33,9 @@ function Home() {
                 </div>
 
             </div>
-            <div className="basis-5/6"></div>
+            <div className="basis-5/6">
+                <Feed />
+            </div>
         </div>
     )
 }
