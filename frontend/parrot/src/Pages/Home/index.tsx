@@ -33,7 +33,7 @@ function Home() {
                 </div>
 
             </div>
-            <div className="basis-5/6">
+            <div className="basis-5/6 overflow-y-auto scroll-smooth">
                 <Feed />
             </div>
         </div>
