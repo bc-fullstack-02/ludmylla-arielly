@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog'
 
 import Menu from '../../components/Menu';
@@ -9,6 +10,11 @@ import logo_menu from '../../assets/logo-menu.svg'
 
 
 function Home() {
+    const [open, setOpen ] = useState(false);
+    function closeDialog() {
+        setOpen(false);
+    }
+
     return (
         <div className="w-screen h-screen flex">
             <div className="basis-1/6 border-r border-slate-400 ml-4 pt-4">
@@ -18,11 +24,12 @@ function Home() {
                 </div>
                 
                 <Menu />
-
-                <Dialog.Root>
-                    <CreatePostButton />
-                    <CreatePostDialog />
-                </Dialog.Root>
+                <div className='flex flex-col items-center'>
+                    <Dialog.Root open={open} onOpenChange={setOpen}>
+                        <CreatePostButton />
+                        <CreatePostDialog closeDialog={closeDialog} />
+                    </Dialog.Root>
+                </div>
 
             </div>
             <div className="basis-5/6"></div>
