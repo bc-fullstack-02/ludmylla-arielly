@@ -8,7 +8,7 @@ import { TextInput } from "../../components/TextInput";
 import Button from "../../components/Button";
 
 import logo from '../../assets/logo.svg'
-import logo2 from '../../assets/logo2.svg'
+
 import '../AuthForm/index.css'
 
 interface AuthFormProps {
@@ -54,7 +54,7 @@ function AuthForm({ formTitle, submitFormButtonText, submitFormButtonAction, lin
     return (
         <div className="text-cyan-50 flex flex-col items-center mt-16">
            <header className="flex flex-col items-center">
-                <img className='logo mb-6' src={logo2} alt="Logo" />
+                <img className='logo mb-6' src={logo} alt="Logo" />
                 <Heading size='lg'>Sysmap Penguin</Heading>
                 <Text className="opacity-50">{formTitle}</Text>
            </header>
