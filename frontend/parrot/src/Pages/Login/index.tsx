@@ -19,11 +19,12 @@ function Login() {
             password
         });
 
-        const decodedToken = jwt_decode(data.acessToken) as UserToken;
+        const decodedToken = jwt_decode(data.accessToken) as UserToken;
         
         localStorage.setItem('profile', decodedToken.profile);
         localStorage.setItem('user', decodedToken.user);
-        localStorage.setItem('acessToken', data.acessToken);
+        localStorage.setItem('accessToken', data.accessToken);
+        console.log(data.accessToken)
 
         return navigate('/home');
     }catch(err) {
