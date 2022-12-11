@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import AuthForm from "../../components/AuthForm";
+import AuthForm, { Auth} from "../../components/AuthForm";
 import api  from '../../services/api'
 
 interface UserToken {
@@ -12,12 +12,9 @@ function Login() {
 
     const navigate = useNavigate();
 
-   async function handleLogin(user: string, password: string) {
+   async function handleLogin(auth: Auth) {
     try {
-      const { data } = await api.post("/security/login", {
-            user,
-            password
-        });
+      const { data } = await api.post("/security/login", auth);
 
         const decodedToken = jwt_decode(data.accessToken) as UserToken;
         
@@ -29,7 +26,7 @@ function Login() {
         return navigate('/home');
     }catch(err) {
         console.log(err)
-        alert('erro')
+        alert('Erro ao fazer login!')
     }
 }
 
