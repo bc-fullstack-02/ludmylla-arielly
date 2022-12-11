@@ -20,13 +20,15 @@ function Heading({
     
     return(
       <Comp className={clsx("text-gray-100 font-sans font-bold", 
-      {"text-lg": size ==="sm"},
-      {"text-xl": size ==="md"},
-      {"text-2xl": size ==="lg"}
-      )}>
-        {children}
-      </Comp>  
-    )
+              {
+                  "text-lg": size ==="sm",
+                  "text-xl": size ==="md",
+                  "text-2xl": size ==="lg"
+              },
+              className
+          )}
+      >{children}</Comp>
+  );
 }
 
 export default Heading;
