@@ -3,7 +3,7 @@ import MenuItem from "../MenuItem";
 
 function Menu() {
     return (
-        <ul>
+        <ul className='pr-2'>
            <MenuItem menuTitle="Páginal Inicial">
             <House className='mr-4' size={38} weight="fill" />
            </MenuItem>
