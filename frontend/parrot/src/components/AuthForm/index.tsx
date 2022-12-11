@@ -10,7 +10,6 @@ import Button from "../../components/Button";
 import logo from '../../assets/logo.svg'
 import '../AuthForm/index.css'
 
-
 interface AuthFormProps {
     formTitle: string;
     submitFormButtonText: string;
@@ -19,14 +18,24 @@ interface AuthFormProps {
     routeName:  string;
 }
 
+interface AuthFormElements extends HTMLFormControlsCollection {
+    user: HTMLInputElement;
+    password: HTMLInputElement;
+}
+
+interface AuthFormElement extends HTMLFormElement {
+    readonly elements: AuthFormElements;
+}
+
 function AuthForm({ formTitle, submitFormButtonText, submitFormButtonAction, linkDescription, routeName }: AuthFormProps) {
     
-    function handleSubmit(event: FormEvent) {
+    function handleSubmit(event: FormEvent<AuthFormElement>) {
         event.preventDefault();
-        const form = event.target as HTMLFormElement;
+        const form = event.currentTarget;
         submitFormButtonAction(
             form.elements.user.value, 
-            form.elements.password.value)
+            form.elements.password.value
+        );
     }
 
     return (
@@ -37,7 +46,7 @@ function AuthForm({ formTitle, submitFormButtonText, submitFormButtonAction, lin
                 <Text className="mt-1 opacity-50">{formTitle}</Text>
            </header>
 
-           <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-4 items-stretch w-full max-w-sm mt-10">
+           <form onSubmit={handleSubmit} className="flex flex-col gap-4 items-stretch w-full max-w-sm mt-10">
                 <label htmlFor="user" className="flex flex-col gap-2">
                   
                     <Text>Login</Text>
