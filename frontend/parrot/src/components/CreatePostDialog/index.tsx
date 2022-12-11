@@ -6,13 +6,20 @@ import api from '../../services/api';
 interface CreatePostDialogProps {
     closeDialog: () => void;
 }
+interface PostFormElements extends HTMLFormControlsCollection {
+    title: HTMLInputElement;
+    description: HTMLInputElement;
+}
+interface PostFormElement extends HTMLFormElement {
+    readonly elements: PostFormElements;
+}
 
  function CreatePostDialog({ closeDialog }:CreatePostDialogProps) {
     const token = localStorage.getItem('accessToken');
 
-   async function handleSubmit(event: FormEvent) {
+   async function handleSubmit(event: FormEvent<PostFormElement>) {
         event.preventDefault();
-        const form = event.target as HTMLFormElement;
+        const form = event.currentTarget;
 
         const newPost = {
             title: form.elements.title.value, 

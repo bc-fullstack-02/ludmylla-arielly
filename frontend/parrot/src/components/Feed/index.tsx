@@ -8,7 +8,7 @@ function Feed() {
             <Heading className="border-b border-slate-400 mt-4">
                 <Text size="lg" className="font-extrabold ml-5">Página Inicial</Text>
                 <div className="flex flex-row items-center ml-5 my-4">
-                    <UserCircle size={48} weight="light" className="text-slate-50" />
+                    <UserCircle size={48} weight="light" className="text-slate-50 hover:text-sky-200" />
                     <Text className="font-extrabold ml-2">Fulano da Silva</Text>
                 </div>
             </Heading>
