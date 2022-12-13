@@ -1,5 +1,5 @@
 
-# Rede social do Bootcamp fullstack da SysMap
+# Bootcamp fullstack da SysMap
 
 O desafio é criar uma rede social com a runtime NodeJs no backend e ReactJS no frontend
 
