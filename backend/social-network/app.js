@@ -56,7 +56,6 @@ app.use(function (req, res, next) {
   next(err)
 })
 
-/*
 app.use(function (error, req, res, next) {
   if (error.name && error.name === 'ValidationError') {
     res.status(406).json(error)
@@ -81,6 +80,5 @@ app.use(function (error, req, res, next) {
     })
   }
 })
-*/
 
 module.exports = app
