@@ -51,7 +51,7 @@ services:
       - mynet
 
   backend:
-    image: rede-social  
+    image: rede-social
     restart: always
     build:
       context: ./
