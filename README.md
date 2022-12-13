@@ -36,5 +36,9 @@ cd social-network
 ### Execute a aplicação
   ```
   npm start
+  ```  
+### Execute a aplicação pelo docker
   ```
-
+  imagen docker-compose: ludmay4/myrepository:1.0
+  docker-compose up
+  ```  
