@@ -5,9 +5,9 @@
 
 ## Backend
 #### Projeto
-- Backend social-network finalizado :sunglasses:
+- Backend social-network finalizado :ok:
 
-### Tecnologias usadas
+### Tecnologias usadas :technologist:
 - nodemon
 - express
 - helmet
@@ -47,7 +47,7 @@ cd social-network
 #### Projeto
 - Frontend em andamento
 
-### Tecnologias usadas
+### Tecnologias usadas :technologist:
 - react
 - react-dom
 - react-router-dom
