@@ -1,6 +1,7 @@
 const createError = require('http-errors')
 const express = require('express')
 const router = express.Router()
+const upload = require('../lib/upload')
 const { Profile, Connection } = require('../models')
 
 router
@@ -11,6 +12,11 @@ router
     .then((data) => res.status(200).json(data))
     .catch(err => next(err))
   )
+
+  .put(upload.concat([(req, res, next) => Promise.resolve()
+    .then(() => Profile.findByIdAndUpdate(req.user.profile._id, req.body, { runValidators: true, new: true }))
+    .then((data) => data ? res.status(200).json(data) : next(createError(400)))
+    .catch(err => next(err))]))
 
 router
   .route('/search')
