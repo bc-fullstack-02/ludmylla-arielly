@@ -4,7 +4,7 @@
 O desafio é criar uma rede social com a runtime NodeJs no backend e ReactJS no frontend
 
 #### Projeto
-- Backend social-network finalizado
+- Backend social-network finalizado :sunglasses:
 
 ### Tecnologias usadas
 - nodemon
