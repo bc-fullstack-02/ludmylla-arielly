@@ -11,6 +11,9 @@ const profileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  image: {
+    type: String
+  },
   following: [{
     type: Schema.Types.ObjectId,
     ref: 'Profile'
