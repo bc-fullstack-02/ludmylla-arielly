@@ -9,13 +9,19 @@ import CreatePostDialog from '../../components/CreatePostDialog';
 import MenuItem from "../MenuItem";
 
 import logo_menu from '../../assets/logo-menu.svg'
+import { Post } from '../../model/post';
 
-function Menu() {
+interface MenuProps {
+newPostCreated: (post: Post) => void;
+}
+
+function Menu(props: MenuProps) {
     const [open, setOpen ] = useState(false);
     
-    function closeDialog() {
+    function postCreateCallback(post: Post) {
         setOpen(false);
-    }
+        props.newPostCreated(post);
+    }   
 
     return (
         <div className="basis-1/6 border-r border-slate-400 ml-4 pt-4">
@@ -39,7 +45,7 @@ function Menu() {
         <div className='flex flex-col items-center'>
             <Dialog.Root open={open} onOpenChange={setOpen}>
                 <CreatePostButton />
-                <CreatePostDialog closeDialog={closeDialog} />
+                <CreatePostDialog postCreateCallback={postCreateCallback} />
             </Dialog.Root>
         </div>
 
