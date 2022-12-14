@@ -40,7 +40,7 @@ cd social-network
   ```  
 ### Execute a aplicação pelo docker
   ```
-  imagen docker-compose: ludmay4/myrepository:1.0
+  imagen docker-compose: ludmay4/myrepository:1.1
   docker-compose up
   ``` 
 ## Frontend :penguin:
