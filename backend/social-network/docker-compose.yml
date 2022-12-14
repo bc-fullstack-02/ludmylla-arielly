@@ -2,7 +2,7 @@ version: "3.2"
 services:
 
   minio:
-    image: bitnami/minio:latest
+    image: bitnami/minio
     ports:
       - '127.0.0.1:9001:9001'
       - '127.0.0.1:9000:9000'
@@ -12,7 +12,7 @@ services:
       MINIO_ROOT_PASSWORD: myminiopassword
       MINIO_SERVER_HOST: localhost
       MINIO_SCHEME: http
-      MINIO_API_CORS_ALLOW_ORIGIN: '*'
+      MINIO_API_CORS_ALLOW_ORIGIN: "*"
     networks:
     - mynet  
 
