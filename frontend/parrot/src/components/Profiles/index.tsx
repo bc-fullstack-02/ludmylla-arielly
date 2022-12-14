@@ -10,13 +10,14 @@ interface Profile {
     _id: string;
     name: string;
     followers: string;
+    followButtonDisabled: boolean;
 }
 
 function Profiles() {
 
     const authHeader = getAuthHeader()
-    const profileId = localStorage.getItem('profile')
     const user = localStorage.getItem('user')
+    const profileId = localStorage.getItem('profile') as string;
 
     const [profiles, setProfiles] = useState<Profile[]>([]);
 
@@ -24,7 +25,13 @@ function Profiles() {
         const getProfiles = async () => {
             try {
               const response =  await api.get('/profiles', authHeader)
-              setProfiles(response.data);
+              const profiles = response.data.map((profile: Profile) => {
+                return {
+                    ...profile,
+                    followButtonDisabled: profile.followers.includes(profileId)
+                };
+              });
+              setProfiles(profiles)
 
             }catch(err) {
                 console.error(err)
@@ -32,14 +39,13 @@ function Profiles() {
         };
    
         getProfiles();
-    }, [])
+    }, []);
 
     async function handleFollow(profileId: string) {
         try {
             await api.post(`/profiles/${profileId}/follow`, null, authHeader)
+            changeButtonStatus(profileId, true);
             console.log('seguindo')
-            alert('Seguindo')
-
         }catch(err) {
             console.error(err)
         }
@@ -48,13 +54,25 @@ function Profiles() {
     async function handleUnfollow(profileId: string) {
         try {
             await api.post(`/profiles/${profileId}/unfollow`, null, authHeader)
+            changeButtonStatus(profileId, false);
             console.log('parou de seguir')
-            alert('Parou de seguir')
         }catch(err) {
             console.error(err)
         }
     }
 
+    function changeButtonStatus(profileId: string, buttonDisabled: boolean ) {
+        setProfiles((profiles) => {
+            const newProfiles = profiles.map((profile) => {
+
+                if (profile._id === profileId) {
+                    profile.followButtonDisabled = buttonDisabled;
+                }
+                return profile;
+            });
+            return [ ...newProfiles];
+        })
+    }
 
     return (
      
@@ -76,9 +94,9 @@ function Profiles() {
                 </div>
                 <footer className='mt-6 flex justify-start gap-4 mb-4'>
                     <button className='flex-none w-48 rounded-md font-semibold bg-cyan-500 hover:bg-cyan-700 focus:ring-2 ring-white' onClick={() => handleFollow(profile._id)}
-                    disabled={profile.followers.includes(profileId)}>Seguir</button>
+                    disabled={profile.followButtonDisabled}>Seguir</button>
                     <Button type='submit' className='bg-zinc-500 px-5 h-12 rounded-md font-semibold hover:bg-zinc-600' onClick={() => handleUnfollow(profile._id)}
-                     disabled={!profile.followers.includes(profileId)}>Parar de seguir</Button>
+                     disabled={!profile.followButtonDisabled}>Parar de seguir</Button>
                 </footer>
             </li>
            ))}
