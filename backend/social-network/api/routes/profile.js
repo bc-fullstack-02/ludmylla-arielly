@@ -1,7 +1,7 @@
 const createError = require('http-errors')
 const express = require('express')
 const router = express.Router()
-const upload = require('../lib/upload')
+const upload = require('../lib/upload-profile')
 const { Profile, Connection } = require('../models')
 
 router

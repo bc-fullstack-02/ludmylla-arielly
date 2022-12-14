@@ -12,7 +12,13 @@ const profileSchema = new Schema({
     ref: 'User'
   },
   image: {
-    type: String
+    type: Boolean,
+    default: false
+  },
+  imageProfile: {
+    type: String,
+    minLength: 2,
+    default: null
   },
   following: [{
     type: Schema.Types.ObjectId,
