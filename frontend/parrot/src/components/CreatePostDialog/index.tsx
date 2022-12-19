@@ -50,11 +50,6 @@ interface PostFormElement extends HTMLFormElement {
        
     }
 
-    function backgroundRed() {
-        const color = 'bg-red-400'
-    }
-
-
     return (
        <Dialog.Portal>
         <Dialog.Overlay className='bg-black/60 inset-0 fixed' />
