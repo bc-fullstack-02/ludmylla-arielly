@@ -43,7 +43,7 @@ useEffect(() => {
         <div className="flex flex-row items-center my-4">
 
             {post.profile.image ? (
-                <img style={{width: '4%', borderRadius: '50px' }} src={post.profile.imageProfile} alt="Foto" />
+                <img style={{width: '56px', height:'56px',  borderRadius: '50px' }} src={post.profile.imageProfile} alt="Foto" />
             ) : (
                 <UserCircle size={48} weight="light" className="text-slate-50 hover:text-sky-200" />
             )}

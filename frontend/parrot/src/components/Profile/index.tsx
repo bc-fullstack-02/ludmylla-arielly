@@ -78,7 +78,7 @@ function Profile() {
             <Heading className="border-b border-slate-400 mt-4">
                 <div className="flex flex-row items-center ml-5 my-4">
                 {profiles && profiles.image ? (
-                    <img style={{width: '4%', borderRadius: '50px' }} src={profiles?.imageProfile} alt="Foto" />
+                    <img style={{width: '56px', height:'56px',  borderRadius: '50px' }} src={profiles?.imageProfile} alt="Foto" />
                 ) : (
                     <UserCircle size={48} weight="light" className="text-slate-50 hover:text-sky-200" />
                 )}
