@@ -1,19 +1,53 @@
 import { Chat, Heart, UserCircle } from "phosphor-react";
-import { Post } from "../../model/post";
+import { useEffect, useState } from "react";
 
 import Heading from "../Heading";
 import Text from "../Text";
 
+import { Post } from "../../model/post";
+import api from "../../services/api";
+interface Profile {
+    _id: string;
+    name: string;
+    image: boolean;
+    imageProfile: string;
+}
 interface PostItemProps {
     post: Post;
     handleLike: (postId: string) => void;
 }
 
 function PostItem({post, handleLike}:PostItemProps) {
+
+const token = localStorage.getItem('accessToken');
+
+const [profiles, setProfiles] = useState<Profile[]>([])
+
+useEffect(() => {
+    async function getProfile() {
+        const response = await api.get('/profiles', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }); 
+      
+
+        setProfiles(response.data);
+        console.log(response.data)
+    }
+    getProfile();
+}, []);
+
     return (
         <div className="border-b border-slate-400 ml-5" key={post._id}>
         <div className="flex flex-row items-center my-4">
-            <UserCircle size={48} weight="light" className="text-slate-50 hover:text-sky-200" />
+
+            {post.profile.image ? (
+                <img style={{width: '4%', borderRadius: '50px' }} src={post.profile.imageProfile} alt="Foto" />
+            ) : (
+                <UserCircle size={48} weight="light" className="text-slate-50 hover:text-sky-200" />
+            )}
+           
             <Text className="font-extrabold ml-2">{post.profile.name}</Text>
         </div>
 
