@@ -45,7 +45,6 @@ interface PostFormElement extends HTMLFormElement {
         postCreateCallback(response.data); 
         }catch(err) {
             console.error(err)
-            alert('Erro ao criar post')
         }
        
     }
