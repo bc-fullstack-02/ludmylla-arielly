@@ -86,8 +86,9 @@ function Profile() {
                     <Text className="font-extrabold ml-2 capitalize">{user}</Text>
                 </div>
             </Heading>
-            
-            <Dropzone onFileUploaded={setSelectedFile}/>
+            <div className="ml-4">
+                <Dropzone onFileUploaded={setSelectedFile}/>
+            </div>
             <div className="mt-4 ml-4 max-w-sm w-full flex flex-col items-stretch"> 
                 <button className="mb-4 py-3 px-4 h-10 bg-yellow-300 rounded font-semibold text-black text-sm w-full transition-colors hover:bg-yellow-400 focus:ring-2 ring-white" onClick={uploadImageProfile}>Enviar</button>
                 <Button onClick={handleLogout}>Sair</Button>
