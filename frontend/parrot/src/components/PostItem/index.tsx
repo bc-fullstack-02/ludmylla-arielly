@@ -48,7 +48,7 @@ useEffect(() => {
                 <UserCircle size={48} weight="light" className="text-slate-50 hover:text-sky-200" />
             )}
            
-            <Text className="font-extrabold ml-2">{post.profile.name}</Text>
+            <Text className="font-extrabold ml-2 capitalize">{post.profile.name}</Text>
         </div>
 
         <div className="ml-16 flex flex-col gap-2">
