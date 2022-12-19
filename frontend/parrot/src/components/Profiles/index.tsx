@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
-import api from "../../services/api";
-import { getAuthHeader } from '../../services/auth'
 import { UserCircle } from "phosphor-react";
+
 import Button from "../Button";
 import Heading from "../Heading";
 import Text from "../Text";
 
+import api from "../../services/api";
+import { getAuthHeader } from '../../services/auth'
+
 interface Profile {
     _id: string;
     name: string;
+    image: boolean;
+    imageProfile: string;
     followers: string;
     followButtonDisabled: boolean;
 }
@@ -32,6 +36,7 @@ function Profiles() {
                 };
               });
               setProfiles(profiles)
+              console.log(response.data)
 
             }catch(err) {
                 console.error(err)
@@ -89,7 +94,12 @@ function Profiles() {
            {profiles.map(profile => (
             <li className="border-b border-slate-400 mt-4 pl-5">
                 <div className="flex flex-row items-center ">
+                {profile && profile.image ? (
+                    <img style={{width: '4%', borderRadius: '50px' }} src={profile?.imageProfile} alt="Foto" />
+                ) : (
                     <UserCircle size={48} weight="light" className="text-slate-50 hover:text-sky-200" />
+                )}
+
                     <Text className="font-extrabold ml-2">{profile.name }</Text>
                 </div>
                 <footer className='mt-6 flex justify-start gap-4 mb-4'>
