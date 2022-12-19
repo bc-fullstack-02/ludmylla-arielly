@@ -4,6 +4,8 @@ export interface Post {
     description: string;
     profile: {
        name: string;
+       image: boolean;
+       imageProfile: string;
     };
     comments: [];
     likes: [];
