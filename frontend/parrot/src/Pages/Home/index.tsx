@@ -5,6 +5,7 @@ import Feed from '../../components/Feed';
 
 import { getAuthHeader } from '../../services/auth';
 import api from '../../services/api';
+import { callLikePost, callUnlikePost } from '../../services/posts';
 import { Post } from '../../model/post';
 
 function Home() {
@@ -23,36 +24,18 @@ function Home() {
         getPosts();
     }, []);
 
-    async function likePost(postId: String) {
+    async function handleLike(postId: String) {
+        const [post, ...rest] = posts.filter(post => post._id === postId);
         try {
-            await api.post(`/posts/${postId}/like`, null, authHeader);
-            const newPost = posts.filter((post) => post._id === postId)
-                .map((post) => {
-                    post.likes.push(profile)
-                    return post;
-                });
-
-            changePostItem(newPost[0])
-
+            if (post && !post.likes.includes(profile)) {
+                const newPost = await callLikePost(post, profile);
+                changePostItem(newPost);
+            } else {
+                const newPost = await callUnlikePost(post, profile);
+                changePostItem(newPost);
+            }
         } catch (err) {
-            console.error(err);
-        }
-    }
-
-    async function unlikePost(postId: String) {
-        try {
-            await api.post(`/posts/${postId}/like`, null, authHeader);
-            const newPost = posts.filter((post) => post._id === postId)
-                .map((post) => {
-                    const index = post.likes.indexOf(profile);
-                    post.likes.splice(index, 1);
-                    return post;
-                });
-
-            changePostItem(newPost[0])
-
-        } catch (err) {
-            console.error(err);
+            console.error(err)
         }
     }
 
@@ -63,18 +46,6 @@ function Home() {
             posts[index] = post
             return [...posts]
         })
-    }
-
-    async function handleLike(postId: String) {
-        const likePosts = posts.filter(post => post._id === postId)
-            .map(post => post.likes.includes(profile));
-
-        if (likePosts && !likePosts[0]) {
-            likePost(postId)
-            console.log(likePost)
-        } else {
-            unlikePost(postId);
-        }
     }
 
     async function newPostCreated(post: Post) {
