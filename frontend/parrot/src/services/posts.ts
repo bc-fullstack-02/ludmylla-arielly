@@ -2,22 +2,14 @@ import { Post } from "../model/post";
 import api from "./api";
 import { getAuthHeader } from "./auth";
 
-async function callLikePost(post: Post, profile: never) {
-    try {
-        await api.post(`/posts/${post._id}/like`, null, getAuthHeader());
-        like(post, profile)
-    } catch (err) {
-        console.error(err);
-    }
+async function callLikePost(post: Post, profile: never): Promise<Post> {
+    await api.post(`/posts/${post._id}/like`, null, getAuthHeader());
+    return like(post, profile)
 }
 
-async function callUnlikePost(post: Post, profile: never) {
-    try {
-        await api.post(`/posts/${post._id}/unlike`, null, getAuthHeader());
-        unlike(post, profile)
-    } catch (err) {
-        console.error(err);
-    }
+async function callUnlikePost(post: Post, profile: never): Promise<Post> {
+    await api.post(`/posts/${post._id}/unlike`, null, getAuthHeader());
+    return unlike(post, profile)
 }
 
 function like(post: Post, profile: never) {
