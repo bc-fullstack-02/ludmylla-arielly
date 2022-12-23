@@ -43,9 +43,10 @@ cd social-network
   imagen docker-compose: ludmay4/myrepository:1.1
   docker-compose up
   ``` 
+  
 ## Frontend :penguin:
 #### Projeto
-- Frontend em andamento
+- Frontend parrot finalizado :ok:
 
 ### Tecnologias usadas :technologist:
 - react
@@ -57,6 +58,26 @@ cd social-network
 - axios
 - react-slot
 - react-dialog
+
+## Imagens do app
+
+#### Login
+![App Screenshot](https://i.ibb.co/xL8M0Zg/foto1.png)
+
+#### Cadastro
+![App Screenshot](https://i.ibb.co/BB7yfWL/Captura-de-tela-2022-12-23-122303.png)
+
+#### Página inicial
+![App Screenshot](https://i.ibb.co/vz8Rj5v/Captura-de-tela-2022-12-23-122727.png)
+
+#### Perfil
+![App Screenshot](https://i.ibb.co/sF0Jnyy/Captura-de-tela-2022-12-23-122754.png)
+
+#### Amigos
+![App Screenshot](https://i.ibb.co/yfVQDDc/Captura-de-tela-2022-12-23-122816.png)
+
+#### Comentários
+![App Screenshot](https://i.ibb.co/zVWJwyn/Captura-de-tela-2022-12-23-123005.png)
 
 ## Execute a aplicação
 
@@ -77,4 +98,6 @@ cd parrot
   ```
   npm run dev
   ```  
-  
+## Mobile :penguin:
+#### Projeto
+- Mobile em andamento  
