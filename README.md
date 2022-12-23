@@ -46,7 +46,7 @@ cd social-network
   
 ## Frontend :penguin:
 #### Projeto
-- Frontend parrot em andamento
+- Frontend parrot finalizado :ok:
 
 ### Tecnologias usadas :technologist:
 - react
