@@ -66,7 +66,7 @@ useEffect(() => {
             <div className="hover:bg-sky-400">
             <Link to={`/posts/${post._id}`} > <Chat size={24} className="text-slate-50" /> </Link>
             </div>
-            <Text size="sm">{post.comments.length}</Text>
+            <Text size="sm">Comente</Text>
             
             <div className="hover:bg-red-400 rounded-full p-1" onClick={() => handleLike(post._id)}>
                 {post.likes.includes(profile) ? (
