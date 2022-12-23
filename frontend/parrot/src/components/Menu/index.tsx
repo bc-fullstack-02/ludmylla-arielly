@@ -12,45 +12,45 @@ import logo_menu from '../../assets/logo-menu.svg'
 import { Post } from '../../model/post';
 
 interface MenuProps {
-newPostCreated: (post: Post) => void;
+    newPostCreated?: (post: Post) => void;
 }
 
 function Menu(props: MenuProps) {
-    const [open, setOpen ] = useState(false);
-    
+    const [open, setOpen] = useState(false);
+
     function postCreateCallback(post: Post) {
         setOpen(false);
-        props.newPostCreated(post);
-    }   
+        props.newPostCreated && props.newPostCreated(post);
+    }
 
     return (
         <div className="basis-1/6 border-r border-slate-400 ml-4 pt-4">
-        <div className='flex items-center ml-4'>
-            <img src={logo_menu} alt="Logo" />
-            <Text className='font-extrabold ml-4'>Penguin</Text>
-        </div>
-        
-        <ul className='pr-2'>
-           <MenuItem menuTitle="Páginal Inicial" route='/home'>
-            <House className='mr-4' size={38} weight="fill" />
-           </MenuItem>
-           <MenuItem menuTitle="Perfil" route='/profile'>
-            <User className='mr-4' size={38} weight="fill" />
-           </MenuItem>
-           <MenuItem menuTitle="Amigos" route='/friends'> 
-           <UsersThree className='mr-4' size={38} weight="fill"  />
-           </MenuItem>
-        </ul>
+            <div className='flex items-center ml-4'>
+                <img src={logo_menu} alt="Logo" />
+                <Text className='font-extrabold ml-4'>Penguin</Text>
+            </div>
 
-        <div className='flex flex-col items-center'>
-            <Dialog.Root open={open} onOpenChange={setOpen}>
-                <CreatePostButton />
-                <CreatePostDialog postCreateCallback={postCreateCallback} />
-            </Dialog.Root>
+            <ul className='pr-2'>
+                <MenuItem menuTitle="Páginal Inicial" route='/home'>
+                    <House className='mr-4' size={38} weight="fill" />
+                </MenuItem>
+                <MenuItem menuTitle="Perfil" route='/profile'>
+                    <User className='mr-4' size={38} weight="fill" />
+                </MenuItem>
+                <MenuItem menuTitle="Amigos" route='/friends'>
+                    <UsersThree className='mr-4' size={38} weight="fill" />
+                </MenuItem>
+            </ul>
+
+            <div className='flex flex-col items-center'>
+                <Dialog.Root open={open} onOpenChange={setOpen}>
+                    <CreatePostButton />
+                    <CreatePostDialog postCreateCallback={postCreateCallback} />
+                </Dialog.Root>
+            </div>
+
         </div>
 
-    </div>
-       
     )
 }
 
