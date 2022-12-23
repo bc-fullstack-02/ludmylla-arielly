@@ -6,6 +6,7 @@ import Text from "../Text";
 
 import { Post } from "../../model/post";
 import api from "../../services/api";
+import { Link } from "react-router-dom";
 interface Profile {
     _id: string;
     name: string;
@@ -20,6 +21,7 @@ interface PostItemProps {
 function PostItem({post, handleLike}:PostItemProps) {
 
 const token = localStorage.getItem('accessToken');
+const profile = localStorage.getItem('profile') as never;
 
 const [profiles, setProfiles] = useState<Profile[]>([])
 
@@ -33,7 +35,6 @@ useEffect(() => {
       
 
         setProfiles(response.data);
-        console.log(response.data)
     }
     getProfile();
 }, []);
@@ -48,7 +49,7 @@ useEffect(() => {
                 <UserCircle size={48} weight="light" className="text-slate-50 hover:text-sky-200" />
             )}
            
-            <Text className="font-extrabold ml-2 capitalize">{post.profile.name}</Text>
+            <Text className="font-extrabold ml-2 capitalize text-white">{post.profile.name}</Text>
         </div>
 
         <div className="ml-16 flex flex-col gap-2">
@@ -63,12 +64,17 @@ useEffect(() => {
 
         <div className="flex items-center ml-16 my-4 space-x-2">
             <div className="hover:bg-sky-400">
-                <Chat size={24} className="text-slate-50" />
+            <Link to={`/posts/${post._id}`} > <Chat size={24} className="text-slate-50" /> </Link>
             </div>
             <Text size="sm">{post.comments.length}</Text>
             
             <div className="hover:bg-red-400 rounded-full p-1" onClick={() => handleLike(post._id)}>
-                <Heart size={24} className="text-slate-50" />
+                {post.likes.includes(profile) ? (
+                    <Heart size={24} className="text-red-500" weight="fill"/>
+                ) : (
+                    <Heart size={24} className="text-slate-50"/>
+                )}
+               
             </div>
             <Text size="sm">{post.likes.length}</Text>
         </div>
