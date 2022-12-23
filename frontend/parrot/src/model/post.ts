@@ -10,4 +10,5 @@ export interface Post {
     comments: [];
     likes: [];
     image: Boolean;
+    likeByUser: boolean;
    }
