@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: 48,
+        marginTop: 58,
     },
     logo: {
         width: 200,
