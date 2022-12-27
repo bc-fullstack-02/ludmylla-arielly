@@ -6,14 +6,16 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         maxWidth: '100%',
-        minWidth: 240,
-        borderRadius: 10,
+        minWidth: 260,
+        borderRadius: 12,
         backgroundColor: THEME.COLORS.BACKGROUND_600,
-        padding: 8,
+        padding: 12,
     },
     input: {
-        marginStart: 8,
+        marginStart: 12,
+        flex: 1,
         color: THEME.COLORS.INPUT,
         fontFamily: THEME.FONT_FAMILY.REGULAR,
     },
+    
 });
