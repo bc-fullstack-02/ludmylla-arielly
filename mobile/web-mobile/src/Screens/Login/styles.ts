@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: 58,
+        marginTop: 68,
     },
     logo: {
         width: 200,
@@ -14,5 +14,13 @@ export const styles = StyleSheet.create({
     },
     text: {
         color: THEME.COLORS.TEXT,
+    },
+    link: {
+        color: THEME.COLORS.CAPTION_400,
+        fontSize: THEME.FONT_SIZE.SM,
+        textAlign: 'center',
+        fontFamily: THEME.FONT_FAMILY.REGULAR,
+        textDecorationLine: 'underline',
     }
+ 
 });

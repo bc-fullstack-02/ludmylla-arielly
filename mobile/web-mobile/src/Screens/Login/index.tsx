@@ -1,26 +1,27 @@
 import React from 'react';
-import { View, Image } from 'react-native';
-import { User } from 'phosphor-react-native';
 
-import Heading from '../../components/Heading';
-import { Input } from '../../components/Input';
-
-import { styles } from './styles';
-
-import logo from '../../../assets/logo-mobile.png';
-import { THEME } from '../../Theme';
+import api from '../../services/api';
+import AuthForm, { Auth } from '../../components/AuthForm';
 
 export function Login() {
+
+  async function handleLogin(auth: Auth) {
+
+    try {
+      const response = await api.post('/security/login', auth);
+      console.log(response)
+    } catch(err) {
+      console.error(err)
+    }
+  
+  }
+
   return (
-    <View style={styles.container}>
-      <Image source={logo} style={logo} resizeMethod='scale' />
-     <Heading title='Sysmap Penguin' subtitle='Faça login e começe a usar!' />
-      <Input.Root>
-        <Input.Icon> 
-          <User color={THEME.COLORS.INPUT} />
-        </Input.Icon>
-        <Input.Input></Input.Input>
-      </Input.Root>
-    </View>
+   <AuthForm 
+    formTitle='Faça o login e começe a usar!' 
+    submitFormButtonText='Entrar'
+    submitFormButtonAction={handleLogin}
+    linkDescription='Não possui conta? Crie uma agora!'
+    routeName=''/>
   )
 }
