@@ -1,9 +1,21 @@
 import React from 'react';
+import { Text, TouchableOpacity } from 'react-native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import { Auth, AuthForm } from '../../components/AuthForm';
 
 import api from '../../services/api';
-import AuthForm, { Auth } from '../../components/AuthForm';
 
-export function Login() {
+import { styles } from './style';
+interface LoginProps {
+  navigation: NativeStackNavigationProp<any, any>;
+}
+
+export function Login({ navigation }: LoginProps) {
+
+  function handleSignUpClick() {
+    navigation.navigate('SignUp')
+  }
 
   async function handleLogin(auth: Auth) {
 
@@ -17,11 +29,15 @@ export function Login() {
   }
 
   return (
-   <AuthForm 
-    formTitle='Faça o login e começe a usar!' 
-    submitFormButtonText='Entrar'
-    submitFormButtonAction={handleLogin}
-    linkDescription='Não possui conta? Crie uma agora!'
-    routeName=''/>
+    <>
+    <AuthForm 
+      formTitle='Faça o login e começe a usar!' 
+      submitFormButtonText='Entrar'
+      submitFormButtonAction={handleLogin}/>
+
+      <TouchableOpacity onPress={handleSignUpClick}>
+        <Text style={styles.link}>Não possui conta? Crie uma agora!</Text>
+      </TouchableOpacity>
+    </>
   )
 }
