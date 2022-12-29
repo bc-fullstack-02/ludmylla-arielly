@@ -7,7 +7,7 @@ import { Action } from '../@types/reducer';
 
 import api from '../services/api'
 
-interface IAuthContext{
+interface IAuthContext {
     token: string | null,
     user: string | null,
     profile: string | null,
@@ -16,7 +16,8 @@ interface IAuthContext{
     login?: () => void,
     register?: () => void,
     tryLocalLogin: () => void,
-  }
+    logout?: () => void,
+}
 
 const defaultValue = {
     token: null,
@@ -28,10 +29,10 @@ const defaultValue = {
 
 const Context = React.createContext<IAuthContext>(defaultValue);
 
-const Provider = ({ children }: {children: ReactNode}) => {
+const Provider = ({ children }: { children: ReactNode }) => {
     const reducer = (state: any, action: Action) => {
         // action: {type: string, payload: any}
-        switch(action.type) {
+        switch (action.type) {
             case 'login':
                 return {
                     ...state,
@@ -42,20 +43,27 @@ const Provider = ({ children }: {children: ReactNode}) => {
                 return {
                     ...state,
                     errorMessage: null,
-                }; 
+                };
+            case 'logout':
+                return {
+                    token: null,
+                    profile: null,
+                    user: null,
+                    errorMessage: null,
+                };
             case 'add_error':
                 return {
                     ...state,
                     errorMessage: action.payload,
-                };    
-                default:
-                    return state;
+                };
+            default:
+                return state;
         }
     };
 
     const [state, dispatch] = useReducer(reducer, defaultValue)
 
-    const login = async ({user, password}: Auth) => {
+    const login = async ({ user, password }: Auth) => {
         try {
             const response = await api.post('/security/login', { user, password })
             const { accessToken } = response.data
@@ -68,9 +76,9 @@ const Provider = ({ children }: {children: ReactNode}) => {
             dispatch({
                 type: 'login',
                 payload: { token: accessToken, profile, user: userName },
-            }) 
+            })
 
-        }catch(err) {
+        } catch (err) {
             console.error(err);
             dispatch({
                 type: 'add_error',
@@ -79,8 +87,8 @@ const Provider = ({ children }: {children: ReactNode}) => {
         }
     };
 
-    
-    const register = async ({user, password}: Auth) => {
+
+    const register = async ({ user, password }: Auth) => {
         try {
             await api.post('/security/register', { user, password })
 
@@ -88,7 +96,7 @@ const Provider = ({ children }: {children: ReactNode}) => {
                 type: 'user_created',
             });
 
-        }catch(err) {
+        } catch (err) {
             console.error(err);
             dispatch({
                 type: 'add_error',
@@ -104,11 +112,27 @@ const Provider = ({ children }: {children: ReactNode}) => {
             user = await SecureStore.getItemAsync('user');
             profile = await SecureStore.getItemAsync('profile');
 
-            dispatch({type: 'login', payload: {token, profile, user}})
-        } catch(err) {
+            dispatch({ type: 'login', payload: { token, profile, user } })
+        } catch (err) {
             console.error(err);
         }
     }
+
+    const logout = async () => {
+
+        try {
+            await SecureStore.deleteItemAsync('token');
+            await SecureStore.deleteItemAsync('user');
+            await SecureStore.deleteItemAsync('profile');
+
+            dispatch({
+                type: 'logout',
+            })
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <Context.Provider
@@ -117,6 +141,7 @@ const Provider = ({ children }: {children: ReactNode}) => {
                 login,
                 register,
                 tryLocalLogin,
+                logout,
             }}
         >
             {children}
