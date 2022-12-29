@@ -12,7 +12,9 @@ export const THEME = {
 
         INPUT: '#7C7C8A',
 
-        BUTTON: '#81D8F7'
+        BUTTON: '#81D8F7',
+
+        ERROR: 'red',
     },
 
     FONT_FAMILY: {
