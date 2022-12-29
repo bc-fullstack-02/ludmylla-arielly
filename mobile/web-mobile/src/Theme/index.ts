@@ -15,6 +15,8 @@ export const THEME = {
         BUTTON: '#81D8F7',
 
         ERROR: 'red',
+
+        BORDER: '#7C7C8A',
     },
 
     FONT_FAMILY: {
