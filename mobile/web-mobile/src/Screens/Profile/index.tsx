@@ -1,18 +1,24 @@
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useContext } from 'react';
+import { UserCircle } from 'phosphor-react-native';
+import { Text, View } from 'react-native';
 
-import { Auth, AuthForm } from '../../components/AuthForm';
+import Button from '../../components/Button';
 
-import api from '../../services/api';
+import { Context as AuthContext } from '../../content/AuthContent';
 
 import { styles } from './style';
 
+
 export function Profile() {
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
-      <Text>Profile</Text>
+       <View style={styles.heading}>
+        <UserCircle color='white' size={48} weight='thin' />
+        <Text style={styles.userNameText}>{user}</Text>
+      </View>
+      <Button onPress={logout} title='Sair' />
     </View>
   )
 }
