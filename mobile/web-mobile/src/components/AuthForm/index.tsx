@@ -9,15 +9,10 @@ import Button from '../Button';
 
 import logo from '../../../assets/logo-mobile.png';
 
-import { THEME } from '../../Theme';
+import { Auth } from '../../@types/auth';
+
+import { THEME } from '../../Theme'
 import { styles } from './style';
-
-export interface Auth {
-    user: string;
-    name?: string;
-    password: string;
-}
-
 interface AuthFormProps {
     formTitle: string;
     submitFormButtonText: string;
