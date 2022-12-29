@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { House, User, UsersThree } from 'phosphor-react-native';
 import { useContext } from 'react';
+import { useEffect } from 'react';
 
 import {
   useFonts,
@@ -34,7 +35,11 @@ const MyTheme = {
 };
 
 function App() {
-  const { token } = useContext(AuthContext);
+  const { token, tryLocalLogin, isLoading } = useContext(AuthContext);
+
+  useEffect(() => {
+    tryLocalLogin && tryLocalLogin()
+  }, []);
 
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
