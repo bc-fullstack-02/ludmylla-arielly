@@ -1,31 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { Auth, AuthForm } from '../../components/AuthForm';
-
-import api from '../../services/api';
+import { Context as AuthContext } from '../../content/AuthContent';
+import { AuthForm } from '../../components/AuthForm';
 
 import { styles } from './style';
+import Space from '../../components/Space';
 interface LoginProps {
   navigation: NativeStackNavigationProp<any, any>;
 }
 
 export function Login({ navigation }: LoginProps) {
 
+  const { login, errorMessage } = useContext(AuthContext);
+
   function handleSignUpClick() {
     navigation.navigate('SignUp')
-  }
-
-  async function handleLogin(auth: Auth) {
-
-    try {
-      const response = await api.post('/security/login', auth);
-      console.log(response)
-    } catch(err) {
-      console.error(err)
-    }
-  
   }
 
   return (
@@ -33,11 +24,16 @@ export function Login({ navigation }: LoginProps) {
     <AuthForm 
       formTitle='Faça o login e começe a usar!' 
       submitFormButtonText='Entrar'
-      submitFormButtonAction={handleLogin}/>
+      submitFormButtonAction={login}/>
 
       <TouchableOpacity onPress={handleSignUpClick}>
-        <Text style={styles.link}>Não possui conta? Crie uma agora!</Text>
+        <Text style={styles.link}>Não porssui conta? Crie uma agora!</Text>
       </TouchableOpacity>
+      {errorMessage && (
+        <Space>
+          <Text  style={styles.errorMessage}>{errorMessage}</Text>
+        </Space>
+      )}
     </>
   )
 }
