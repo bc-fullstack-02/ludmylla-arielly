@@ -1,61 +1,56 @@
-import React, { useContext } from 'react';
-import { Text, View } from 'react-native';
-import { UserCircle, Chat, Heart } from 'phosphor-react-native';
+import React, { useContext, useEffect } from 'react';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { UserCircle, PencilSimple } from 'phosphor-react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { Context as AuthContext } from '../../content/AuthContent';
+import { Context as PostContext } from '../../content/PostContent';
 
+import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
+import { PostItem } from '../../components/PostItem';
+
+import { THEME } from '../../Theme';
 import { styles } from './style';
 
-export function Home() {
+interface HomeProps {
+  navigation: NativeStackNavigationProp<any, any>;
+}
+
+export function Home({navigation}: HomeProps) {
   const { user } = useContext(AuthContext);
+  const { getPosts, posts } = useContext(PostContext);
+
+  useEffect(() => {
+    getPosts && getPosts();
+  }, []);
+
+  function handlePencilPress() {
+    navigation.navigate('CreatePost');
+  }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <FocusAwareStatusBar
+        barStyle='light-content'
+        backgroundColor={THEME.COLORS.BACKGROUND_800} 
+      />
       <View style={styles.heading}>
         <UserCircle color='white' size={48} weight='thin' />
         <Text style={styles.userNameText}>{user}</Text>
+        <View style={{ flex: 1}}></View>
+        <TouchableOpacity onPress={handlePencilPress}>
+          <PencilSimple color='white' size={38} weight='thin' />
+        </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <View style={styles.post}>
-          <View style={styles.postHeading}>
-            <UserCircle color='white' size={48} weight='thin' />
-            <Text style={styles.postUserText}>Fulano</Text>
-          </View>
-          <View style={styles.contentBody}>
-            <Text style={styles.contentText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing
-              elit, sed do eiusmod tempor incididunt ut labore 
-              et dolore magna aliqua. 
-            </Text>
-          </View>
-          <View style={styles.footer}>
-            <Chat size={24} color='white' weight='thin'/>
-            <Text style={styles.number}>9.999</Text>
-            <Heart size={24} color='white' weight='thin'/>
-            <Text style={styles.number}>9.999</Text>
-          </View>
+        <FlatList
+          data={posts}
+          keyExtractor={({_id}) => _id} 
+          renderItem={({item}) => <PostItem post={item}/>}
+        />
+       
       </View>
-
-      <View style={styles.post}>
-          <View style={styles.postHeading}>
-            <UserCircle color='white' size={48} weight='thin' />
-            <Text style={styles.postUserText}>Fulano</Text>
-          </View>
-          <View style={styles.contentBody}>
-            <Text style={styles.contentText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing
-              elit, sed do eiusmod tempor incididunt ut labore 
-              et dolore magna aliqua. 
-            </Text>
-          </View>
-          <View style={styles.footer}>
-            <Chat size={24} color='white' weight='thin'/>
-            <Text style={styles.number}>9.999</Text>
-            <Heart size={24} color='white' weight='thin'/>
-            <Text style={styles.number}>9.999</Text>
-          </View>
-      </View>
-      </View>
-    </View>
+    </SafeAreaView>
   )
 }
