@@ -1,18 +1,21 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Text} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Auth, AuthForm } from '../../components/AuthForm';
+import { FocusAwareStatusBar } from '../../components/FocusAwareStatusBar';
 
-import api from '../../services/api';
-
+import { THEME } from '../../Theme';
 import { styles } from './style';
 
 export function Friends() {
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+       <FocusAwareStatusBar
+           barStyle='light-content'
+           backgroundColor={THEME.COLORS.BACKGROUND_800}
+        />
       <Text>Friends</Text>
-    </View>
+    </SafeAreaView>
   )
 }
