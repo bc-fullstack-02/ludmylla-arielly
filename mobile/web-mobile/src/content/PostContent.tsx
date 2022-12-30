@@ -1,5 +1,6 @@
 import React, { useReducer, ReactNode } from 'react';
 import { Action } from '../@types/reducer';
+import * as SecureStore from 'expo-secure-store';
 
 import { navigate } from '../RootNavigation';
 
@@ -19,9 +20,16 @@ const Provider = ({ children }: { children: ReactNode }) => {
             case 'show_posts':
                 return { ...state, posts: action.payload };
             case 'like_post':
-                return { ...state };
+                const newPostLike = state.posts;
+                const [postLike, ..._] = newPostLike.filter((post) => post._id === action.payload.id);
+                postLike.likes.push(action.payload.profile)
+                return { ...state, posts: [...newPostLike]};
             case 'unlike':
-                return { ...state };
+                const newPostUnlike = state.posts;
+                const [postUnlike, ...rest] = newPostUnlike.filter((post) => post._id === action.payload.id);
+                const index = postUnlike.likes.indexOf(action.payload.profile);
+                postUnlike.likes.splice(index, 1)
+                return { ...state, posts: [...newPostUnlike]};
         }
     }
 
@@ -54,8 +62,10 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
     const likePost = async ({ postId }) => {
         try {
-
-
+            const getAuthHeader = await authHeader();
+            const response = await api.post(`/posts/${postId}/like`, null, getAuthHeader);
+            const profile = await SecureStore.getItemAsync('profile')
+            dispatch({ type: 'like_post', payload: {id: postId, profile: profile}})
         } catch (err) {
             console.error(err);
         }
@@ -63,8 +73,10 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
     const unlike = async ({ postId }) => {
         try {
-
-
+            const getAuthHeader = await authHeader();
+            const response = await api.post(`/posts/${postId}/unlike`, null, getAuthHeader);
+            const profile = await SecureStore.getItemAsync('profile');
+            dispatch({type: 'unlike', payload: {id: postId, profile: profile}})
         } catch (err) {
             console.error(err);
         }
