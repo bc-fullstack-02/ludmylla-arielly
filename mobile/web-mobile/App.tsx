@@ -15,6 +15,9 @@ import {
 } from '@expo-google-fonts/inter';
 
 import { Provider as AuthProvider, Context as AuthContext } from './src/content/AuthContent';
+import { Provider as PostProvider } from './src/content/PostContent';
+
+import { navigationRef } from './src/RootNavigation';
 
 import { Login } from './src/Screens/Login';
 import { Loading } from './src/components/Loading';
@@ -22,7 +25,9 @@ import { SignUp } from './src/Screens/SignUp';
 import { Home } from './src/Screens/Home';
 import { Friends } from './src/Screens/Friends';
 import { Profile } from './src/Screens/Profile';
+import { HomeNavigation } from './src/Screens/HomeNavigation';
 import { THEME } from './src/Theme';
+
 
 const MyTheme = {
   ...DefaultTheme,
@@ -55,7 +60,7 @@ function App() {
   return (
     <SafeAreaProvider>
       {fontsLoaded ? (
-        <NavigationContainer theme={MyTheme}>
+        <NavigationContainer theme={MyTheme} ref={navigationRef}>
           {!token ? (
             <Stack.Navigator
               screenOptions={{
@@ -71,7 +76,7 @@ function App() {
             screenOptions={({route}) => ({
               tabBarIcon: ({color, size}) => {
                 switch (route.name){
-                  case "Home":
+                  case "HomeNavigation":
                     return (
                       <House size={size} color={color} />
                     )
@@ -90,7 +95,7 @@ function App() {
               headerShown: false,
             })}
           >
-              <Tab.Screen name="Home" component={Home} />
+              <Tab.Screen name="HomeNavigation" component={HomeNavigation} />
               <Tab.Screen name="Friends" component={Friends} />
               <Tab.Screen name="Profile" component={Profile} />
             </Tab.Navigator>
@@ -106,7 +111,9 @@ function App() {
 export default () => {
   return (
     <AuthProvider>
-      <App />
+      <PostProvider>
+        <App />
+      </PostProvider>
     </AuthProvider>
   )
 }
