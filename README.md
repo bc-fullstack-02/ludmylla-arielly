@@ -100,7 +100,7 @@ cd parrot
   ```  
 ## Mobile :penguin:
 #### Projeto
-- Mobile em andamento
+- Mobile web-mobile finalizado :ok:
 
 ### Tecnologias usadas :technologist:
 - expo
@@ -108,6 +108,23 @@ cd parrot
 - react
 - jwt-decode
 - phosphor-react-native
+
+## Imagens do app
+
+#### Login
+<img src="https://i.ibb.co/B2HvJSk/Whats-App-Image-2022-12-31-at-15-19-07-1.jpg" alt="drawing" style="width:200px;"/>
+
+#### Cadastro
+<img src="https://i.ibb.co/p2GckKS/Whats-App-Image-2022-12-31-at-15-19-07.jpg" alt="drawing" style="width:200px;"/>
+
+#### Página inicial
+<img src="https://i.ibb.co/72qpBMT/Whats-App-Image-2022-12-31-at-15-19-07-3.jpg" alt="drawing" style="width:200px;"/>
+
+#### Cria um post
+<img src="https://i.ibb.co/ssYsgdj/Whats-App-Image-2022-12-31-at-15-19-07-2.jpg" alt="drawing" style="width:200px;"/>
+
+#### Perfil
+<img src="https://i.ibb.co/6yWf4bR/Whats-App-Image-2022-12-31-at-15-37-05.jpg" alt="drawing" style="width:200px;"/>
 
 ## Execute a aplicação
 
