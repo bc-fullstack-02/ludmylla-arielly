@@ -100,4 +100,32 @@ cd parrot
   ```  
 ## Mobile :penguin:
 #### Projeto
-- Mobile em andamento  
+- Mobile em andamento
+
+### Tecnologias usadas :technologist:
+- expo
+- axios
+- react
+- jwt-decode
+- phosphor-react-native
+
+## Execute a aplicação
+
+### Clone o repositório
+```
+git clone https://github.com/bc-fullstack-02/ludmylla-arielly.git
+cd mobile
+cd web-mobile
+```
+
+### Instale as dependências
+ ```
+cd web-mobile
+npm install
+```
+
+### Execute a aplicação
+```
+npx expo start --tunnel
+ ```  
+  
